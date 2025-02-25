@@ -14,22 +14,6 @@ const createChannel = async () => {
     }
 }
 
-const subscribeMessage = async (channel , service , binding_key) => {
-    try {
-        const applicationQueue = await channel.assertQueue('QUEUE_NAME');
-
-        channel.bindQueue(applicationQueue.queue , EXCHANGE_NAME , binding_key);
-    
-        channel.consume(applicationQueue.queue , msg => {
-            console.log('Message recieved');
-            console.log(msg.content.to_string());
-            channel.ack(msg);
-        });
-    } catch (error) {
-        throw error;
-    }
-}
-
 const publishMessage = async (channel , binding_key , message) => {
     try {
         await channel.assertQueue('QUEUE_NAME');
@@ -41,6 +25,5 @@ const publishMessage = async (channel , binding_key , message) => {
 
 module.exports = {
     createChannel,
-    subscribeMessage,
     publishMessage
 }
